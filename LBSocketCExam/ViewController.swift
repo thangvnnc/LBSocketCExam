@@ -11,13 +11,15 @@ import LBSocketC
 
 class ViewController: UIViewController
 {
+    var sockfd: Int32 = 0
+    
     @IBAction func btnStartServer(_ sender: UIButton)
     {
         DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async
         {
-            var port: Int32 = 8000;
+            let port: Int32 = 8000;
             var resultStart: Int32 = 0;
-            resultStart = start_server(port)
+            resultStart = start_server(port, &self.sockfd)
             print(resultStart)
 //            runServerDemo()
         }
@@ -25,10 +27,12 @@ class ViewController: UIViewController
     
     @IBAction func btnRunClient(_ sender: UIButton)
     {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async
-        {
-            runClientDemo()
-        }
+        print(sockfd)
+        socket_close(sockfd)
+//        DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async
+//        {
+//            runClientDemo()
+//        }
     }
     
     override func viewDidLoad()
